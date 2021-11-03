@@ -6,6 +6,15 @@ lint:
     - recommended
   rules:
     no-unused-components: warning
+  decorators: 
+    info-description-override:
+      filePath: ./openapi/alternative-description.md
+    operation-description-override:
+      operationIds:
+        postPathItemWithExamples: ./openapi/paths/operation-description-example.md
+    tag-description-override:
+      tagNames:
+        Tag: ./openapi/tag-description-alternative.md
 referenceDocs:
   htmlTemplate: ./docs/index.html
   theme:
@@ -14,7 +23,7 @@ referenceDocs:
         main: "#32329f"
   generateCodeSamples:
     languages:  # Array of language config objects; indicates in which languages to generate code samples.
-      - lang: curl # Can be one of the following supported languages: "curl", "Node.js", "JavaScript".
+      - lang: curl # Can be one of the following supported languages: "curl", "Node.js", "JavaScript". "Java", "C#", "Python", "Go", "Ruby", "PHP"
       - lang: "Node.js"
       - lang: "JavaScript"
       
