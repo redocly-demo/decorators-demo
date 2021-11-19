@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
-  version: 1.0.0
-  title: Example.com
+  version: 3.0.0
+  title: Example.com asfdafsd
   termsOfService: 'https://example.com/terms/'
   contact:
     email: contact@example.com
