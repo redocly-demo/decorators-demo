@@ -6,8 +6,11 @@
 
 ## Result
 
-Original: https://without-decorators.redoc.ly/
-With decorators: https://preview.redoc.ly/without-decorators/decorators-demo/
+
+Original: https://decorator-overrides-demo.redoc.ly/original
+v1 (with override decorators): https://decorator-overrides-demo.redoc.ly/v1
+
+Browse around and change the version switch in the left sidebar navigation to see the original and v1 versions.
 
 ### `info-description-override`
 <img width="1005" alt="2021-11-03_18-23-53" src="https://user-images.githubusercontent.com/1161871/140232772-502fe663-8af7-4da6-a345-21b8067129bc.png">
