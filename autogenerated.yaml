@@ -1,0 +1,482 @@
+openapi: 3.1.0
+info:
+  version: '2'
+  title: What the overlays!
+  termsOfService: https://example.com/terms/
+  contact:
+    email: contact@example.com
+    url: http://example.com/contact
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  x-logo:
+    url: https://redocly.github.io/openapi-template/logo.png
+  description: |-
+    This is the original API info description.
+    See the decorated v1 and v2 versions at https://with-decorators.redoc.ly
+tags:
+  - name: Echo
+    description: Example echo operations.
+  - name: User
+    description: Operations about users.
+  - name: Sample
+    description: This is a sample tag description.
+servers:
+  - url: https://example.com/api/v1
+paths:
+  /users/{username}:
+    parameters:
+      - name: pretty_print
+        in: query
+        description: Pretty print response
+        schema:
+          type: boolean
+    get:
+      tags:
+        - User
+      summary: Get user by user name
+      description: |
+        Some description of the operation.
+        You can use `Markdown` here.
+      operationId: getUserByName
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be fetched
+          required: true
+          schema:
+            type: string
+        - name: with_email
+          in: query
+          description: Filter users without email
+          schema:
+            type: boolean
+      security:
+        - main_auth:
+            - read:users
+        - api_key: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                username: user1
+                email: user@example.com
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/Problem'
+        '404':
+          description: User not found
+          $ref: '#/components/responses/Problem'
+    put:
+      tags:
+        - User
+      summary: Updated user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be updated
+          required: true
+          schema:
+            type: string
+      security:
+        - main_auth:
+            - write:users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: Updated user object
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid user supplied
+          $ref: '#/components/responses/Problem'
+        '404':
+          description: User not found
+          $ref: '#/components/responses/Problem'
+  /echo:
+    post:
+      tags:
+        - Echo
+      summary: Echo test
+      description: Receive the exact message you've sent
+      operationId: echo
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              example: Hello world!
+          application/xml:
+            schema:
+              type: string
+              example: Hello world!
+        description: Echo payload
+        required: true
+  /pathItem:
+    post:
+      tags:
+        - Sample
+      summary: Operation summary
+      description: |
+        Operation description **Markdown**.
+      operationId: operationId
+      security:
+        - api_key: []
+        - basic_auth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schema'
+        description: requestBody description
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: Calls per hour allowed by the user.
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schema'
+        '400':
+          $ref: '#/components/responses/Problem'
+  /pathItemWithExamples:
+    post:
+      tags:
+        - Sample
+      summary: Operation summary with examples
+      description: |
+        Operation description **markdown**.
+      operationId: postPathItemWithExamples
+      security:
+        - api_key: []
+        - basic_auth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schema'
+            examples:
+              mapName:
+                summary: My first example
+                description: My first example's description.
+                value:
+                  stringProperty: tada
+              mapNameDoesNotShowInDocsUnlessSummaryIsNotProvided:
+                value:
+                  stringProperty: checkmark
+        description: requestBody description
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schema'
+        '400':
+          $ref: '#/components/responses/Problem'
+components:
+  securitySchemes:
+    main_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://example.com/api/oauth/dialog
+          scopes:
+            read:users: read users info
+            write:users: modify or remove users
+    api_key:
+      type: apiKey
+      in: header
+      name: api_key
+    basic_auth:
+      type: http
+      scheme: basic
+  schemas:
+    Email:
+      description: User email address
+      type: string
+      format: test
+      example: john.smith@example.com
+    User:
+      type: object
+      properties:
+        username:
+          description: User supplied username
+          type: string
+          minLength: 4
+          example: John78
+        firstName:
+          description: User first name
+          type: string
+          minLength: 1
+          example: John
+        lastName:
+          description: User last name
+          type: string
+          minLength: 1
+          example: Smith
+        email:
+          $ref: '#/components/schemas/Email'
+    Problem:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+      description: >-
+        The Problem Details JSON Object
+        [[RFC7807](https://tools.ietf.org/html/rfc7807)].
+      properties:
+        type:
+          type: string
+          description: >-
+            A URI reference [[RFC3986](https://tools.ietf.org/html/rfc3986)]
+            that identifies the problem type. It should provide human-readable
+            documentation for the problem type. When this member is not present,
+            its value is assumed to be "about:blank".
+          format: uri
+        title:
+          type: string
+          description: >-
+            A short, human-readable summary of the problem type. It SHOULD NOT
+            change from occurrence to occurrence of the problem, except for
+            purposes of localization.
+        status:
+          type: integer
+          description: The HTTP status code.
+          minimum: 400
+          maximum: 599
+        detail:
+          type: string
+          description: >-
+            A human-readable explanation specific to this occurrence of the
+            problem.
+        instance:
+          type: string
+          description: >-
+            A URI reference that identifies the specific occurrence of the
+            problem.  It may or may not yield further information if
+            dereferenced.
+    Schema:
+      type: object
+      title: Scalars
+      properties:
+        stringProperty:
+          description: Property name's description (type is string)
+          type: string
+          examples:
+            - example
+            - sample
+        readOnlyStringProperty:
+          description: Notice this only appears in the response.
+          type: string
+          readOnly: true
+          examples:
+            - example
+        writeOnlyStringProperty:
+          description: Notice this only appears in the request.
+          type: string
+          writeOnly: true
+          examples:
+            - example
+        minLengthString:
+          description: Property name's description (type is string)
+          type: string
+          minLength: 4
+          examples:
+            - example
+        maxLengthString:
+          description: Property name's description (type is string)
+          type: string
+          maxLength: 140
+          examples:
+            - example
+        minAndMaxLengthString:
+          description: Property name's description (type is string)
+          type: string
+          minLength: 4
+          maxLength: 140
+          examples:
+            - example
+        nullableOrStringProperty:
+          description: Property name's description (type is string or null)
+          type:
+            - string
+            - null
+          examples:
+            - example
+        stringEnumValues:
+          description: Property name's description (type is string)
+          type: string
+          enum:
+            - sample
+            - example
+            - specimen
+            - case
+            - instance
+            - illustration
+        stringDateTime:
+          description: Property name's description (type is string, format is date-time)
+          type: string
+          format: date-time
+        stringDate:
+          description: Property name's description (type is string, format is date-time)
+          type: string
+          format: date
+        stringEmail:
+          description: Property name's description (type is string, format is email)
+          type: string
+          format: email
+        stringIpAddressV4:
+          description: Property name's description (type is string, format is ipv4 address)
+          type: string
+          format: ipv4
+        stringIpAddressV6:
+          description: Property name's description (type is string, format is ipv6 address)
+          type: string
+          format: ipv6
+        stringPassword:
+          description: Property name's description (type is string, format is password)
+          type: string
+          format: password
+        stringHostname:
+          description: Property name's description (type is string, format is hostname)
+          type: string
+          format: hostname
+        stringUri:
+          description: Property name's description (type is string, format is uri)
+          type: string
+          format: uri
+        stringUuid:
+          description: Property name's description (type is string, format is uuid)
+          type: string
+          format: uuid
+        numberProperty:
+          description: Property name's description (type is number)
+          type: number
+          example: 8
+        numberFloat:
+          description: Property name's description (type is number, format is float)
+          type: number
+          format: float
+        numberDouble:
+          description: Property name's description (type is number, format is double)
+          type: number
+          format: double
+        numberGreaterThanOrEquals:
+          description: Property name's description (type is number)
+          type: number
+          minimum: 5
+        numberGreaterThan:
+          description: Property name's description (type is number)
+          type: number
+          exclusiveMinimum: 5
+        numberLessThan:
+          description: Property name's description (type is number)
+          type: number
+          exclusiveMaximum: 8
+        numberLessThanOrEquals:
+          description: Property name's description (type is number)
+          type: number
+          maximum: 8
+        numberRange:
+          description: Property name's description (type is number)
+          type: number
+          minimum: 5
+          maximum: 8
+        numberRangeExclusiveMaximum:
+          description: Property name's description (type is number)
+          type: number
+          minimum: 5
+          exclusiveMaximum: 8
+        numberRangeExclusiveMinimumAndMaximum:
+          description: Property name's description (type is number)
+          type: number
+          exclusiveMinimum: 5
+          exclusiveMaximum: 8
+        numberMultipleOf:
+          description: Property name's description (type is number)
+          type: number
+          multipleOf: 2
+        integerType:
+          description: Property name's description (type is integer)
+          type: integer
+        integer32bit:
+          description: Property name's description (type is integer, format is int32)
+          type: integer
+          format: int32
+        integer64bit:
+          description: Property name's description (type is integer, format is int64)
+          type: integer
+          format: int64
+        booleanProperty:
+          description: Property name's description (type is boolean)
+          type: boolean
+  responses:
+    Problem:
+      description: Problem
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+  headers:
+    ExpiresAfter:
+      description: date in UTC when token expires
+      schema:
+        type: string
+        format: date-time

@@ -1,0 +1,1 @@
+This is a **better description** for this get user by name operation.
