@@ -13,4 +13,4 @@ I'm using a decorator instead of an overlay because overlays do not exist.
 
 ## APIs
 
-- See the original: https://without-decorators.redoc.ly
+- See the original by toggling the version switcher.

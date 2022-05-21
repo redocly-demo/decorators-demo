@@ -16,7 +16,7 @@ apis:
           operationIds:
             postPathItemWithExamples: docs/operations/postPathItemWithExamples.md
             getUserByName: docs/operations/getUserByName.md
-  # Confirm use case
+  # Confirm API registry use case
   # decorators@v2: 
   #   root: "https://api.redocly.com/registry/bundle/testing_acme/demo%20decorators/original/openapi.yaml?branch=main"
   #   lint:
@@ -47,6 +47,7 @@ features.openapi:
         main: "#abcabc"
       http:
         put: "black"
+  pathInMiddlePanel: true
   generateCodeSamples:
     languages:
       - lang: curl 

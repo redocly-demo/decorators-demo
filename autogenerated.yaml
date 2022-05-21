@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  version: '2'
+  version: ''
   title: What the overlays!
   termsOfService: https://example.com/terms/
   contact:
@@ -13,7 +13,7 @@ info:
     url: https://redocly.github.io/openapi-template/logo.png
   description: |-
     This is the original API info description.
-    See the decorated v1 at https://with-decorators.redoc.ly
+    See the decorated v1 by toggling the version switcher.
 tags:
   - name: Echo
     description: Example echo operations.
@@ -22,7 +22,8 @@ tags:
   - name: Sample
     description: This is a sample tag description.
 servers:
-  - url: https://example.com/api/v1
+  - url: https://26d40c76-ddf6-4d62-8837-8249f1ff1890.remockly.com
+    description: Mock server
 paths:
   /users/{username}:
     parameters:
