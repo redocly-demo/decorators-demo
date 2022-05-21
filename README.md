@@ -39,6 +39,8 @@ Use decorators to decorate the OpenAPI file. When the original OpenAPI file chan
 2. Adjust the configuration file (`redocly.yaml`) (or [create one](https://redocly.com/docs/cli/configuration/)) -- it should have the decorators object. See the [`redocly.yaml` configuration file](./redocly.yaml) in this repository for an example.
 3. Run the [bundle command](https://redocly.com/docs/cli/commands/bundle/): `redocly bundle decorators@v1`.
 
+<!-- NTD: confirm use case
+
 When a team autogenerates an OpenAPI file, they can push it straight into Redocly's API registry, instead of committing the artifact to a Git repository. The other team can use it as the root source in the file repository using the corresponding registry OpenAPI link:
 
 ```yaml
@@ -46,9 +48,8 @@ apis:
   decorators@v2:
     root: https://api.redocly.com/registry/bundle/testing_acme/demo%20decorators/v1/openapi.yaml?branch=main
     lint:
-      bundle:
-        decorators:
+      decorators:
           # ...
 ```
 
-Every time that API is updated by developers, the corresponding usage will be automatically updated as well.
+Every time that API is updated by developers, the corresponding usage will be automatically updated as well. -->

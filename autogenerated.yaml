@@ -13,7 +13,7 @@ info:
     url: https://redocly.github.io/openapi-template/logo.png
   description: |-
     This is the original API info description.
-    See the decorated v1 and v2 versions at https://with-decorators.redoc.ly
+    See the decorated v1 at https://with-decorators.redoc.ly
 tags:
   - name: Echo
     description: Example echo operations.
